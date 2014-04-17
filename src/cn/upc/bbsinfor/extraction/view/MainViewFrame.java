@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
@@ -51,12 +53,10 @@ public class MainViewFrame extends JPanel {
                 MainViewFrame mainViewFrame = new MainViewFrame();
                 mainViewFrame.initView(mFrame);
                 mFrame.setBounds(5, 5, 1200, 680);
-//                mFrame.setLocationByPlatform(true);
+                mFrame.setLocationByPlatform(true);
                 mFrame.setVisible(true);
-                System.out.println(mainViewFrame.bbsUrlTextField.getWidth() + " : "
-                        + mainViewFrame.bbsUrlTextField.getHeight());
-                System.out.println(mainViewFrame.extractionBBSInfor.getWidth() + " : "
-                        + mainViewFrame.extractionBBSInfor.getHeight());
+                
+                mainViewFrame.setActionEventListener();
             }
         });
         NativeInterface.runEventPump();
@@ -67,7 +67,7 @@ public class MainViewFrame extends JPanel {
         // 初始化浏览器组件
         mWebBrowser = new JWebBrowser(null);
         webBrowserPanel = new JPanel(new BorderLayout());
-        mWebBrowser.navigate("http://www.google.com"); // 默认URL
+        mWebBrowser.navigate(System.getProperty("user.dir") + "\\file\\welcome.html"); // 默认URL
         mWebBrowser.setButtonBarVisible(false);
         mWebBrowser.setMenuBarVisible(false);
         mWebBrowser.setBarsVisible(false);
@@ -84,7 +84,7 @@ public class MainViewFrame extends JPanel {
     private void initView(JFrame jFrame) {
         JLabel bbsUrlLabel = new JLabel("BBS主题网页URL");
         bbsUrlLabel.setFont(new Font("宋体", Font.PLAIN, 18));
-        bbsUrlTextField = new JTextField("http://");
+        bbsUrlTextField = new JTextField("http://www.zhihu.com/question/23421941");
         bbsUrlTextField.setFont(new Font("宋体", Font.PLAIN, 18));
         bbsUrlLoadButton = new JButton("加载");
         bbsUrlLoadButton.setFont(new Font("宋体", Font.PLAIN, 18));
@@ -127,4 +127,18 @@ public class MainViewFrame extends JPanel {
         container.add(topPanel, BorderLayout.NORTH);
         container.add(rightPanel, BorderLayout.EAST);
     }
+    /**
+     * 添加事件监听器
+     */
+    private void setActionEventListener() {
+        this.bbsUrlLoadButton.addActionListener(new LoadUrlHandler());
+    }
+    class LoadUrlHandler implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            mWebBrowser.navigate(bbsUrlTextField.getText());
+        }
+        
+    }
 }
+
