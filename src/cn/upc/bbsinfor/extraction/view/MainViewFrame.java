@@ -1,23 +1,20 @@
 
 package cn.upc.bbsinfor.extraction.view;
-import cn.upc.bbsinfor.extraction.buildvbt.Vips;
 
+import cn.upc.bbsinfor.extraction.buildvbt.Vips;
+import cn.upc.bbsinfor.extraction.localuser.LocalUserRegion;
+import cn.upc.bbsinfor.extraction.view.xmltree.XMLViewer;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -25,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 /**
@@ -53,9 +49,12 @@ public class MainViewFrame extends JPanel {
     private static MainViewFrame mainViewFrame = null;
 
     private String url = null;
+
     private Vips vips = null;
-    private JFrame messageFrame = null;
+
     private Executor vipsExecutor = null;
+
+    private ScrolledTextFrame messageframe = null;
 
     public static void main(String[] args) {
         UIUtils.setPreferredLookAndFeel();
@@ -147,7 +146,8 @@ public class MainViewFrame extends JPanel {
      */
     private void setActionEventListener() {
         this.bbsUrlLoadButton.addActionListener(new LoadUrlHandler());
-        this.buildVBTButton.addActionListener(new buildVBTHandler());
+        this.buildVBTButton.addActionListener(new BuildVBTHandler());
+        this.locateUserInfor.addActionListener(new LocateUserHandler());
     }
 
     /**
@@ -169,11 +169,14 @@ public class MainViewFrame extends JPanel {
      * 
      * @author Belief
      */
-    class buildVBTHandler implements ActionListener {
+    class BuildVBTHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             vipsExecutor = Executors.newSingleThreadExecutor(); // 初始化执行者框架
-            mainViewFrame.showWaitMessage();
+            // 显示可滚动提示信息的窗口
+            messageframe = new ScrolledTextFrame();
+            messageframe.showMessageView();
+
             Runnable vipsTask = new Runnable() {
                 @Override
                 public void run() {
@@ -187,7 +190,7 @@ public class MainViewFrame extends JPanel {
                         vips.setPredefinedDoC(8);
                         // 开始页面分块
                         vips.startSegmentation(url);
-                        
+
                         closeWaitMessage();
                         showVBTFrame();
                     } catch (Exception ex) {
@@ -201,43 +204,40 @@ public class MainViewFrame extends JPanel {
     }
 
     /**
-     * 显示提示信息对话框
-     */
-    private void showWaitMessage() {
-        messageFrame = new JFrame("提示");
-        JLabel label = new JLabel("正在处理中,请稍等!");
-        label.setFont(new Font("宋体", Font.BOLD, 24));
-        label.setForeground(Color.red);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        messageFrame.getContentPane().add(label, BorderLayout.CENTER);
-        messageFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // 禁用关闭按钮
-        // 禁用最小化按钮
-        messageFrame.addWindowStateListener(new WindowStateListener() {
-            @Override
-            public void windowStateChanged(WindowEvent e) {
-                if(messageFrame.getState() == 1) {
-                    messageFrame.setState(0);
-                }
-            }
-        });
-        messageFrame.setSize(300, 200);
-        messageFrame.setLocationRelativeTo(null);
-        messageFrame.setResizable(false);
-        messageFrame.setVisible(true);
-    }
-    /**
      * 显示VBT树的矩形形式
      */
     private void showVBTFrame() {
+        // 有分隔条的形式
+        VBTSeparatorView vbtSeparatorView = new VBTSeparatorView();
+        vbtSeparatorView.setImagePath(System.getProperty("user.dir") + "\\" + vips.outputFolder
+                + "\\iteration10.png");
+        vbtSeparatorView.displayImage();
+        // 没有分隔条的形式
         VBTShowView vbtShowView = new VBTShowView();
         vbtShowView.setImagePath(System.getProperty("user.dir") + "\\" + vips.outputFolder
-                + "\\iteration10.png");
+                + "\\blocks10.png");
         vbtShowView.displayImage();
     }
+
     /**
      * 关闭显示对话框
      */
     private void closeWaitMessage() {
-        messageFrame.setVisible(false);
+        messageframe.frame.setVisible(false);
+    }
+
+    /**
+     * 定位用户发言区的事件类
+     * 
+     * @author Belief
+     */
+    class LocateUserHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LocalUserRegion localUserRegion = new LocalUserRegion();
+            localUserRegion.parseVIPSXML(System.getProperty("user.dir") + "\\" + vips.outputFolder);
+            XMLViewer xmlViewer = new XMLViewer();
+            xmlViewer.makeFrame(System.getProperty("user.dir") + "\\" + vips.outputFolder + "\\UserRegion.XML");
+        }
     }
 }

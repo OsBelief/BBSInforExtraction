@@ -24,6 +24,7 @@ import org.fit.cssbox.layout.Box;
 import org.fit.cssbox.layout.TextBox;
 
 /**
+ * 
  * Separator detector with possibility of generating graphics output.
  * @author Tomas Popela
  *

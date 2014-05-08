@@ -14,11 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * 视觉分块图展示类(没有分隔条)
+ * 视觉分块图展示类(有分隔条)
  * 
  * @author Belief
  */
-public class VBTShowView extends JFrame {
+public class VBTSeparatorView extends JFrame {
     private Container mContainer;
 
     private static final int h = 620;
@@ -26,9 +26,9 @@ public class VBTShowView extends JFrame {
     private static final int w = 210;
 
     private ImageViewPanel mPanel;
-    private static final String TITLE = "视觉分块树(二)";
+    private static final String TITLE = "视觉分块树(一)";
 
-    public VBTShowView() {
+    public VBTSeparatorView() {
         mContainer = this.getContentPane();
         mPanel = new ImageViewPanel();
     }
@@ -42,7 +42,7 @@ public class VBTShowView extends JFrame {
     public void displayImage() {
         mPanel.setPreferredSize(new Dimension(mPanel.getImgWidth(), mPanel.getImgHeight()));
         mContainer.add(mPanel, BorderLayout.CENTER);
-        this.setBounds(30, 30, w, h);
+        this.setBounds(10, 10, w, h);
         this.setTitle(TITLE);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  // 禁用关闭功能
         this.setResizable(false);

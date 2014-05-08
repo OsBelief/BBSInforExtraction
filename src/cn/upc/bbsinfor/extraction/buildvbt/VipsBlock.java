@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * 描述页面块
+ * 描述Web网页的视觉块
  * Class that represents block on page.
  * @author Tomas Popela
  *
@@ -358,6 +358,7 @@ public class VipsBlock {
 	}
 
 	/**
+	 * 获得DOM树结点的背景颜色
 	 * Finds background color of element
 	 * @param element Element
 	 */

@@ -12,6 +12,7 @@ import java.util.List;
 import org.w3c.dom.Node;
 
 /**
+ * 描述主题网页的视觉结构
  * Class that represents visual structure.
  * @author Tomas Popela
  *

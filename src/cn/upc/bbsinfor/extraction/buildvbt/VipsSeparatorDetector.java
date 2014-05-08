@@ -8,6 +8,7 @@ package cn.upc.bbsinfor.extraction.buildvbt;
 
 import java.util.List;
 /**
+ * 分隔条检测的通用接口
  * Common interface for separators detectors.
  * @author Tomas Popela
  *

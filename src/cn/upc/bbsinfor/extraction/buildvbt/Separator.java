@@ -9,6 +9,7 @@ package cn.upc.bbsinfor.extraction.buildvbt;
 import java.awt.Point;
 
 /**
+ * 描述视觉分隔条的类
  * Class that represents visual separator.
  * @author Tomas Popela
  *

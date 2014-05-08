@@ -133,7 +133,7 @@ public class Vips {
      */
     private void getDomTree(InputStream urlStream) {
         DOMSource parser = new DOMSource(urlStream);
-        // 利用反射修改编码
+        // 利用反射修改字符编码
         Class<?> parserClass = parser.getClass();
         try {
             Field charset = parserClass.getDeclaredField("charset");
@@ -197,7 +197,7 @@ public class Vips {
         SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         outputFolder += sdf.format(cal.getTime());
         outputFolder += "_";
-        outputFolder = _url.getHost().replaceAll("\\.", "_").replaceAll("/", "_");
+        outputFolder += _url.getHost().replaceAll("\\.", "_").replaceAll("/", "_");
 
         return outputFolder;
     }

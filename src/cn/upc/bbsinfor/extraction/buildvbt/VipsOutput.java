@@ -9,7 +9,6 @@ package cn.upc.bbsinfor.extraction.buildvbt;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -18,13 +17,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.fit.cssbox.layout.Box;
 import org.fit.cssbox.layout.ElementBox;
 import org.fit.cssbox.layout.Viewport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 /**
+ * 控制VIPS算法的输出
  * Class, that handles output of VIPS algorithm.
  * @author Tomas Popela
  *
@@ -68,6 +66,7 @@ public final class VipsOutput {
 	}
 
 	/**
+	 * 将视觉结构的结点附加进以VIPSPager为根结点的XML文档之中
 	 * Append node from given visual structure to parent node
 	 * @param parentNode Given visual structure
 	 * @param visualStructure Parent node
@@ -76,26 +75,26 @@ public final class VipsOutput {
 	{
 		Element layoutNode = doc.createElement("LayoutNode");
 
-		layoutNode.setAttribute("FrameSourceIndex", String.valueOf(visualStructure.getFrameSourceIndex()));
-		layoutNode.setAttribute("SourceIndex", visualStructure.getSourceIndex());
-		layoutNode.setAttribute("DoC", String.valueOf(visualStructure.getDoC()));
-		layoutNode.setAttribute("ContainImg", String.valueOf(visualStructure.containImg()));
-		layoutNode.setAttribute("IsImg", String.valueOf(visualStructure.isImg()));
-		layoutNode.setAttribute("ContainTable", String.valueOf(visualStructure.containTable()));
-		layoutNode.setAttribute("ContainP", String.valueOf(visualStructure.containP()));
-		layoutNode.setAttribute("TextLen", String.valueOf(visualStructure.getTextLength()));
-		layoutNode.setAttribute("LinkTextLen", String.valueOf(visualStructure.getLinkTextLength()));
-		Box parentBox = visualStructure.getNestedBlocks().get(0).getBox().getParent();
-		layoutNode.setAttribute("DOMCldNum", String.valueOf(parentBox.getNode().getChildNodes().getLength()));
-		layoutNode.setAttribute("FontSize", String.valueOf(visualStructure.getFontSize()));
-		layoutNode.setAttribute("FontWeight", String.valueOf(visualStructure.getFontWeight()));
+//		layoutNode.setAttribute("FrameSourceIndex", String.valueOf(visualStructure.getFrameSourceIndex()));
+//		layoutNode.setAttribute("SourceIndex", visualStructure.getSourceIndex());
+//		layoutNode.setAttribute("DoC", String.valueOf(visualStructure.getDoC()));
+//		layoutNode.setAttribute("ContainImg", String.valueOf(visualStructure.containImg()));
+//		layoutNode.setAttribute("IsImg", String.valueOf(visualStructure.isImg()));
+//		layoutNode.setAttribute("ContainTable", String.valueOf(visualStructure.containTable()));
+//		layoutNode.setAttribute("ContainP", String.valueOf(visualStructure.containP()));
+//		layoutNode.setAttribute("TextLen", String.valueOf(visualStructure.getTextLength()));
+//		layoutNode.setAttribute("LinkTextLen", String.valueOf(visualStructure.getLinkTextLength()));
+//		Box parentBox = visualStructure.getNestedBlocks().get(0).getBox().getParent();
+//		layoutNode.setAttribute("DOMCldNum", String.valueOf(parentBox.getNode().getChildNodes().getLength()));
+//		layoutNode.setAttribute("FontSize", String.valueOf(visualStructure.getFontSize()));
+//		layoutNode.setAttribute("FontWeight", String.valueOf(visualStructure.getFontWeight()));
 		layoutNode.setAttribute("BgColor", visualStructure.getBgColor());
 		layoutNode.setAttribute("ObjectRectLeft", String.valueOf(visualStructure.getX()));
 		layoutNode.setAttribute("ObjectRectTop", String.valueOf(visualStructure.getY()));
 		layoutNode.setAttribute("ObjectRectWidth", String.valueOf(visualStructure.getWidth()));
 		layoutNode.setAttribute("ObjectRectHeight", String.valueOf(visualStructure.getHeight()));
-		layoutNode.setAttribute("ID", visualStructure.getId());
-		layoutNode.setAttribute("order", String.valueOf(_order));
+//		layoutNode.setAttribute("ID", visualStructure.getId());
+//		layoutNode.setAttribute("order", String.valueOf(_order));
 
 		_order++;
 
@@ -166,6 +165,7 @@ public final class VipsOutput {
 	}
 
 	/**
+	 * 将视觉结构输出成XML文档结构
 	 * Writes visual structure to output XML
 	 * @param visualStructure Given visual structure
 	 * @param pageViewport Page's viewport
@@ -190,8 +190,8 @@ public final class VipsOutput {
 			vipsElement.setAttribute("PageRectLeft", String.valueOf(pageViewport.getAbsoluteContentX()));
 			vipsElement.setAttribute("PageRectWidth", String.valueOf(pageViewport.getContentWidth()));
 			vipsElement.setAttribute("PageRectHeight", String.valueOf(pageViewport.getContentHeight()));
-			vipsElement.setAttribute("neworder", "0");
-			vipsElement.setAttribute("order", String.valueOf(pageViewport.getOrder()));
+//			vipsElement.setAttribute("neworder", "0");
+//			vipsElement.setAttribute("order", String.valueOf(pageViewport.getOrder()));
 
 			doc.appendChild(vipsElement);
 
