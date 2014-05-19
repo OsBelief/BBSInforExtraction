@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Thu May 15 22:46:04 CST 2014
+onejar.license.required=false
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=true
+jarname=C\:\\Users\\Belief\\Desktop\\BBSInforExtraction.jar
+manifest.mergeall=true
+manifest.mainclass=cn.upc.bbsinfor.extraction.view.splash.SplashView
+manifest.file=file
+jarname.isextern=true
+onejar.expand=
+excludes=
+includes=

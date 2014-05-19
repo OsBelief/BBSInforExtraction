@@ -6,9 +6,11 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -43,6 +45,9 @@ public class VBTShowView extends JFrame {
         mPanel.setPreferredSize(new Dimension(mPanel.getImgWidth(), mPanel.getImgHeight()));
         mContainer.add(mPanel, BorderLayout.CENTER);
         this.setBounds(30, 30, w, h);
+        // 更改应用程序的图标
+        this.setIconImage(this.getToolkit().getImage(
+                System.getProperty("user.dir") + "\\file\\icon.png"));
         this.setTitle(TITLE);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  // 禁用关闭功能
         this.setResizable(false);
@@ -95,6 +100,16 @@ public class VBTShowView extends JFrame {
             }
             Image newImage = image.getScaledInstance(w, h, Image.SCALE_SMOOTH);
             g.drawImage(newImage, 0, 0, w, h, this);
+        }
+    }
+    /**
+     * 只关闭当前窗口
+     */
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            this.dispose();
+        } else {
+            super.processWindowEvent(e);
         }
     }
 }

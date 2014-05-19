@@ -79,11 +79,11 @@ public final class VipsOutput {
 //		layoutNode.setAttribute("SourceIndex", visualStructure.getSourceIndex());
 //		layoutNode.setAttribute("DoC", String.valueOf(visualStructure.getDoC()));
 //		layoutNode.setAttribute("ContainImg", String.valueOf(visualStructure.containImg()));
-//		layoutNode.setAttribute("IsImg", String.valueOf(visualStructure.isImg()));
+		layoutNode.setAttribute("IsImg", String.valueOf(visualStructure.isImg()));
 //		layoutNode.setAttribute("ContainTable", String.valueOf(visualStructure.containTable()));
 //		layoutNode.setAttribute("ContainP", String.valueOf(visualStructure.containP()));
-//		layoutNode.setAttribute("TextLen", String.valueOf(visualStructure.getTextLength()));
-//		layoutNode.setAttribute("LinkTextLen", String.valueOf(visualStructure.getLinkTextLength()));
+		layoutNode.setAttribute("TextLen", String.valueOf(visualStructure.getTextLength()));
+		layoutNode.setAttribute("LinkTextLen", String.valueOf(visualStructure.getLinkTextLength()));
 //		Box parentBox = visualStructure.getNestedBlocks().get(0).getBox().getParent();
 //		layoutNode.setAttribute("DOMCldNum", String.valueOf(parentBox.getNode().getChildNodes().getLength()));
 //		layoutNode.setAttribute("FontSize", String.valueOf(visualStructure.getFontSize()));

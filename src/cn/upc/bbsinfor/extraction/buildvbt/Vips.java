@@ -18,12 +18,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javax.imageio.ImageIO;
+
 import org.fit.cssbox.css.CSSNorm;
 import org.fit.cssbox.css.DOMAnalyzer;
 import org.fit.cssbox.demo.DOMSource;
 import org.fit.cssbox.layout.BrowserCanvas;
 import org.fit.cssbox.layout.Viewport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -32,8 +36,10 @@ import org.w3c.dom.Document;
  * @author Tomas Popela
  */
 public class Vips {
+    final Logger logger = LoggerFactory.getLogger(Vips.class);
+
     private URL _url = null;
-    
+
     private DOMAnalyzer _domAnalyzer = null;
 
     private BrowserCanvas _browserCanvas = null;
@@ -59,8 +65,9 @@ public class Vips {
     long startTime = 0;
 
     long endTime = 0;
-    
+
     public String outputFolder = "";
+
     /**
      * Default constructor
      */
@@ -157,6 +164,7 @@ public class Vips {
             _domAnalyzer.addStyleSheet(null, CSSNorm.stdStyleSheet(), DOMAnalyzer.Origin.AGENT);
             _domAnalyzer.addStyleSheet(null, CSSNorm.userStyleSheet(), DOMAnalyzer.Origin.AGENT);
             _domAnalyzer.getStyleSheets();
+            logger.info("解析HTML源代码 ,获得DOM树");
         } catch (Exception e) {
             System.err.print(e.getMessage());
         }
@@ -299,8 +307,11 @@ public class Vips {
 
         long diff = endTime - startTime;
 
-        System.out.println("Execution time of VIPS: " + diff + " ns; " + (diff / 1000000.0)
-                + " ms; " + (diff / 1000000000.0) + " sec");
+        logger.info("Execution time of VIPS: {} ns; ({} / 1000000.0) ms; ({} / 1000000000.0) sec",
+                new Object[] {
+                        diff, diff, diff
+                });
+
     }
 
     /**
@@ -352,7 +363,7 @@ public class Vips {
             startTime = System.nanoTime();
             getViewport();
             restoreOut();
-            
+
             String oldWorkingDirectory = "";
             String newWorkingDirectory = "";
 

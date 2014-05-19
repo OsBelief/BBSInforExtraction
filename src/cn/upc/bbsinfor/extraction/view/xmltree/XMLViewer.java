@@ -4,13 +4,16 @@ package cn.upc.bbsinfor.extraction.view.xmltree;
 import org.dom4j.Attribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
+
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -30,6 +33,7 @@ public class XMLViewer extends JFrame {
     public static final Logger logger = LoggerFactory.getLogger(XMLViewer.class);
 
     private final XMLTree xmlTree;
+
     private final String TITLE = "显示XML文档对应的树形结构";
 
     private File file;
@@ -57,7 +61,8 @@ public class XMLViewer extends JFrame {
         setPreferredSize(new Dimension(windowWidth, windowHeight));
         setFocusable(true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
+        setIconImage(this.getToolkit().getImage(
+                System.getProperty("user.dir") + "\\file\\icon.png"));
         xmlTree = new XMLTree();
     }
 
@@ -159,6 +164,16 @@ public class XMLViewer extends JFrame {
         } catch (Exception e) {
             System.err.println("error when updating xml viewer");
             e.printStackTrace();
+        }
+    }
+    /**
+     * 只关闭当前窗口
+     */
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            this.dispose();
+        } else {
+            super.processWindowEvent(e);
         }
     }
 }

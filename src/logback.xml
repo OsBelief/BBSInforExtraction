@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<!-- 获取时间戳字符串 -->
+	<timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+	<!-- 设置变量 -->
+	<property name="APP_Name" value="slf4j_logback" />
+	<!-- 设置上下文名称 -->
+	<contextName>${APP_Name}</contextName>
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<!-- 输出到文件 <file>路径 <append>追加到文件结尾 -->
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>logFile.log</file>
+		<append>true</append>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<root level="INFOR">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

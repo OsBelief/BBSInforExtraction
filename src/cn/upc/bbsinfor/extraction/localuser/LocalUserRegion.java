@@ -1,18 +1,14 @@
 
 package cn.upc.bbsinfor.extraction.localuser;
 
+import cn.upc.bbsinfor.extraction.util.FileIO;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 /**
@@ -21,7 +17,7 @@ import java.util.List;
  * @author Belief
  */
 public class LocalUserRegion {
-    public static final Logger logger = LoggerFactory.getLogger(LocalUserRegion.class);
+    final Logger logger = LoggerFactory.getLogger(LocalUserRegion.class);
 
     private int pageRectWidth;
 
@@ -29,19 +25,24 @@ public class LocalUserRegion {
 
     private Document document;
 
-    public void parseVIPSXML(String filename) {
-        SAXReader saxReader = new SAXReader();
-        try {
-            document = saxReader.read(filename + "\\VIPSResult.xml");
+    /**
+     * 定位用户发言区
+     * 
+     * @param filename
+     */
+    public void localeRegion(String filename) throws DocumentException {
+        document = FileIO.readXML(filename + "\\VIPSResult.xml");
+        if (document != null) {
             Element rootElement = document.getRootElement();
             pageRectHeight = Integer.parseInt(rootElement.attributeValue("PageRectHeight"));
             pageRectWidth = Integer.parseInt(rootElement.attributeValue("PageRectWidth"));
 
             checkVipsBlock((Element)rootElement.elements().get(0)); // 观察文档得出VIPSPage只有一个子节点
 
-            writeUserRegionXML(document, filename);
-        } catch (DocumentException e) {
-            e.printStackTrace();
+            FileIO.writeXML(document, filename + "\\UserRegion.XML");
+            logger.info("用户发言区定位完成！");
+        } else {
+            new Exception("读VIPSResult.xml文件时异常！");
         }
     }
 
@@ -116,36 +117,6 @@ public class LocalUserRegion {
         }
     }
 
-    /**
-     * 将用户发言区输出成XML的形式
-     * 
-     * @param document
-     */
-    private void writeUserRegionXML(Document document, String filename) {
-        Writer fileWriter;
-        try {
-            fileWriter = new FileWriter(filename + "\\UserRegion.XML");
-            // fileWriter = new FileWriter(System.getProperty("user.dir") +
-            // "\\file\\user_egion.XML");
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            format.setIndent(true); // 设置是否缩进
-            format.setIndent("   "); // 以空格方式实现缩进
-            format.setNewlines(true); // 设置是否换行
-            XMLWriter xmlWriter = new XMLWriter(fileWriter, format);
-            xmlWriter.write(document);
-            xmlWriter.flush();
-            xmlWriter.close();
-            logger.info("用户发言区定位模块结束");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 去头去尾(论文中的方法行不通,只能耍点小聪明了)
-     * 
-     * @param e
-     */
     private void removeTopAndBottom(Element el) {
         List<Element> list = el.elements();
         el.remove(list.get(0));
@@ -156,9 +127,4 @@ public class LocalUserRegion {
         el.remove(list.get(--size));
         el.remove(list.get(--size));
     }
-
-    // public static void main(String[] args) {
-    // LocalUserRegion region = new LocalUserRegion();
-    // region.parseVIPSXML("E:\\eclipse4.2\\BBSInforExtraction\\07_05_2014_21_09_08_tieba_baidu_com");
-    // }
 }
